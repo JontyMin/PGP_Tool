@@ -1,138 +1,129 @@
-# PGP 加密解密工具
+# PGP Encryption/Decryption Tool
 
-一个基于 C# WinForms 和 PgpCore 库开发的用户友好的 PGP 加密解密工具。
+A user-friendly PGP encryption and decryption tool developed with C# WinForms and PgpCore library.
 
-## 功能特性
+## Features
 
-- **密钥管理**: 支持加载和管理 PGP 公钥和私钥
-- **文件加密**: 使用公钥加密任意文件
-- **文件解密**: 使用私钥和密码解密 PGP 加密文件
-- **灵活输出**: 可配置输出目录和自定义文件名
-- **用户友好**: 直观的图形界面，支持文件浏览选择
-- **安全性**: 密码字段安全处理，支持完整性检查
-- **设置记忆**: 自动记住密钥路径、密码和输出目录
+- **Key Management**: Support for loading and managing PGP public/private keys
+- **File Encryption**: Encrypt any file using public key
+- **File Decryption**: Decrypt PGP encrypted files using private key and password
+- **Flexible Output**: Configurable output directory and custom file naming
+- **User-Friendly**: Intuitive graphical interface with file browser support
+- **Security**: Secure password handling with integrity check support
+- **Settings Memory**: Automatically remembers key paths, passwords, and output directories
 
-## 系统要求
+## System Requirements
 
-- .NET 8.0 或更高版本
-- Windows 操作系统
-- PgpCore 6.5.0+ 库
+- .NET 8.0 or higher
+- Windows Operating System
+- PgpCore 6.5.0+ library
 
-## 使用方法
+## Usage
 
-### 加密文件
+### Encrypting Files
+1. In the "Key Management" section, select a public key file (.asc or .pub)
+2. In the "File Selection" section, choose the file to encrypt
+3. In the "Output Configuration" section, set output directory (optional custom filename)
+4. Click the "Encrypt File" button
 
-1. 在"Key Management"区域选择公钥文件 (.asc 或 .pub)
-2. 在"File Selection"区域选择要加密的文件
-3. 在"Output Configuration"区域设置输出目录（可选择自定义文件名）
-4. 点击"Encrypt File"按钮
+### Decrypting Files
+1. In the "Key Management" section, select a private key file (.asc or .key)
+2. Enter the private key password
+3. In the "File Selection" section, choose the PGP file to decrypt
+4. In the "Output Configuration" section, set output directory (optional custom filename)
+5. Click the "Decrypt File" button
 
-### 解密文件
+## Project Structure
 
-1. 在"Key Management"区域选择私钥文件 (.asc 或 .key)
-2. 输入私钥密码
-3. 在"File Selection"区域选择要解密的 PGP 文件
-4. 在"Output Configuration"区域设置输出目录（可选择自定义文件名）
-5. 点击"Decrypt File"按钮
-
-## 项目结构
-
-```text
+```
 pgp_tool/
-├── Program.cs              # 应用程序入口点
-├── Form1.cs               # 主窗体逻辑 (MainForm)
-├── Form1.Designer.cs      # 主窗体设计器代码
-├── PgpTool.csproj         # 项目文件
-├── Properties/            # 应用程序设置
-│   ├── Settings.settings  # 用户设置配置
-│   └── Settings.Designer.cs # 自动生成的设置类
+├── Program.cs              # Application entry point
+├── Form1.cs               # Main form logic (MainForm)
+├── Form1.Designer.cs      # Main form designer code
+├── PgpTool.csproj         # Project file
+├── Properties/            # Application settings
+│   ├── Settings.settings  # User settings configuration
+│   └── Settings.Designer.cs # Auto-generated settings class
 ├── .github/
-│   └── copilot-instructions.md # Copilot 开发指南
-└── README.md              # 项目说明
+│   └── copilot-instructions.md # Copilot development guidelines
+└── README.md              # Project documentation
 ```
 
-## 构建和运行
+## Build and Run
 
-### 使用 .NET CLI
-
+### Using .NET CLI
 ```bash
-# 还原依赖项
+# Restore dependencies
 dotnet restore
 
-# 构建项目
+# Build project
 dotnet build
 
-# 运行应用程序
+# Run application
 dotnet run
 
-# 发布为可执行文件
+# Publish as executable
 dotnet publish -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true -o ./publish
 ```
 
-### 使用 Visual Studio
+### Using Visual Studio
+1. Open `PgpTool.csproj` file
+2. Press F5 to start debugging
 
-1. 打开 `PgpTool.csproj` 文件
-2. 按 F5 开始调试运行
+## Dependencies
 
-## 依赖项
+- **PgpCore**: Core PGP encryption/decryption library
+- **.NET 8.0 Windows Forms**: UI framework
+- **System.Configuration.ConfigurationManager**: Settings management
 
-- **PgpCore**: PGP 加密解密核心库
-- **.NET 8.0 Windows Forms**: UI 框架
-- **System.Configuration.ConfigurationManager**: 设置管理
+## Distribution
 
-## 发布版本
+### Framework-Dependent (Recommended)
+- **File**: `publish/PgpTool.exe` 
+- **Size**: ~7 MB
+- **Requirements**: .NET 8 Runtime must be installed on target machine
 
-### 框架依赖版本（推荐）
+### Self-Contained
+- **File**: `publish-release/PgpTool.exe`
+- **Size**: ~153 MB
+- **Requirements**: No .NET installation required
 
-- **文件**: `publish/PgpTool.exe`
-- **大小**: ~7 MB
-- **要求**: 目标机器需要安装 .NET 8 运行时
+## Security Considerations
 
-### 自包含版本
+- Private key passwords are temporarily stored in memory as plaintext and cleared when application closes
+- Passwords are Base64 encoded when saved to settings (basic obfuscation)
+- Recommended to use this tool in a secure environment
+- Keep your private key files and passwords safe
 
-- **文件**: `publish-release/PgpTool.exe`
-- **大小**: ~153 MB
-- **要求**: 无需安装 .NET
+## Settings Storage
 
-## 安全注意事项
-
-- 私钥密码在内存中以明文形式暂时存储，应用程序关闭后会被清理
-- 保存设置时密码使用 Base64 编码（基本混淆）
-- 建议在安全的环境中使用此工具
-- 请妥善保管您的私钥文件和密码
-
-## 设置存储
-
-用户设置自动保存到：
-
-```text
+User settings are automatically saved to:
+```
 %USERPROFILE%\AppData\Local\PgpTool\
 ```
 
-设置包括：
+Settings include:
+- Public key file path
+- Private key file path
+- Password (Base64 encoded)
+- Output directory preference
 
-- 公钥文件路径
-- 私钥文件路径
-- 密码（Base64编码）
-- 输出目录偏好
+## License
 
-## 许可证
+This project is for educational and personal use only.
 
-本项目仅供学习和个人使用。
+## Contributing
 
-## 贡献
+Bug reports and feature requests are welcome.
 
-欢迎提交问题报告和功能请求。
-
-## 更新日志
+## Changelog
 
 ### v1.0.0 (2025-08-11)
-
-- 基础的 PGP 加密解密功能
-- 英文图形用户界面
-- 密钥管理系统
-- 文件操作支持
-- 输出配置选项
-- 设置持久化
-- 异步操作保持界面响应性
-- 全面的错误处理和验证
+- Basic PGP encryption/decryption functionality
+- English graphical user interface
+- Key management system
+- File operations with drag-and-drop support
+- Output configuration options
+- Settings persistence
+- Asynchronous operations for UI responsiveness
+- Comprehensive error handling and validation
